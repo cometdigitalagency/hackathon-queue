@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackaton_2023/check_booking_date/check_booking_date.dart';
+import 'package:hackaton_2023/find_queue/view/find_queue_screen.dart';
 import 'package:hackaton_2023/finish_booking/view/finish_booking_screen.dart';
 import 'package:hackaton_2023/history/history.dart';
 import 'package:hackaton_2023/how_to_register/view/how_to_register_screen.dart';
@@ -40,6 +42,14 @@ final _router = GoRouter(
       path: '/how_to_register',
       builder: (context, state) => const HowToRegisterScreen(),
     ),
+    GoRoute(
+      path: '/check_booking_date',
+      builder: (context, state) => const CheckBookDateScreen(),
+    ),
+    GoRoute(
+      path: '/find_queue',
+      builder: (context, state) => const FindQueueScreen(),
+    ),
   ],
 );
 
@@ -56,7 +66,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       routerConfig: _router,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
         textTheme: GoogleFonts.notoSansLaoTextTheme(),
       ),

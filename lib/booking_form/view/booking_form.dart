@@ -10,7 +10,7 @@ class BookingForm extends StatefulWidget {
 
 class _BookingFormState extends State<BookingForm> {
   int _currentStep = 0;
-  String? gender = 'male';
+  String? gender = 'ຊາຍ';
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -106,7 +106,7 @@ class _BookingFormState extends State<BookingForm> {
                         value: gender,
                         decoration:
                             const InputDecoration(prefixIcon: Icon(Icons.male)),
-                        items: ['male', 'female', 'other']
+                        items: ['ຊາຍ', 'ຍິງ']
                             .map((el) => DropdownMenuItem(
                                   value: el,
                                   child: Text(el),

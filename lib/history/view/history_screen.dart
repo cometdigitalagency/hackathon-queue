@@ -32,7 +32,7 @@ class _HistoryScreen extends ConsumerState<HistoryScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            context.go('/');
+            GoRouter.of(context).pop();
           },
         ),
       ),

@@ -40,8 +40,8 @@ dependencies:
   go_router: ^12.1.1
   google_fonts: ^6.1.0
   awesome_dialog: ^3.1.0
-  laosbooking:
-    path: './packages/laosbooking'
+  laobooking:
+    path: './packages/laobooking'
   flutter_otp_text_field: ^1.1.1
   dropdown_button2: ^2.3.9
   dio: ^5.3.3

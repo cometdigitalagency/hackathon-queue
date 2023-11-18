@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laosbooking/laosbooking.dart';
+import 'package:laobooking/laosbooking.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Booking> reservationList = getReservationList();
+    List<Booking> reservationList = getBookingList();
     final BoxDecoration customDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       color: Colors.white,
@@ -39,50 +39,102 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            context.go("/history");
-                          },
-                          child: Container(
-                            decoration: customDecoration,
-                            padding: const EdgeInsets.all(10),
-                            child: const Column(
-                              children: [
-                                Icon(
-                                  Icons.history,
-                                  size: 40,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                context.push("/history");
+                              },
+                              child: Container(
+                                decoration: customDecoration,
+                                padding: const EdgeInsets.all(10),
+                                child: const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.history,
+                                      size: 40,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("ປະຫວັດການຈອງ")
+                                  ],
                                 ),
-                                SizedBox(height: 10),
-                                Text("ປະຫວັດການຈອງ")
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                context.go('/how_to_register');
+                              },
+                              child: Container(
+                                decoration: customDecoration,
+                                padding: const EdgeInsets.all(10),
+                                child: const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.question_mark,
+                                      size: 40,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("ວິທີການສະໝັກ")
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: (){
-                            context.go('/how_to_register');
-                          },
-                          child: Container(
-                            decoration: customDecoration,
-                            padding: const EdgeInsets.all(10),
-                            child: const Column(
-                              children: [
-                                Icon(
-                                  Icons.question_mark,
-                                  size: 40,
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                context.push("/find_queue");
+                              },
+                              child: Container(
+                                decoration: customDecoration,
+                                padding: const EdgeInsets.all(10),
+                                child: const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.playlist_add_check,
+                                      size: 40,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("ກວດຄິວ")
+                                  ],
                                 ),
-                                SizedBox(height: 10),
-                                Text("ວິທີການສະໝັກ")
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                context.push('/check_booking_date');
+                              },
+                              child: Container(
+                                decoration: customDecoration,
+                                padding: const EdgeInsets.all(10),
+                                child: const Column(
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_month,
+                                      size: 40,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("ຕາລາງວັນທີ່")
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -104,14 +156,44 @@ class HomeScreen extends ConsumerWidget {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  width: 200,
-                                  height: 200,
-                                  child: Image.network(list.image!),
+                                  width: 180,
+                                  height: 180,
+                                  child: Image.network(
+                                    list.image!,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        // Image has finished loading
+                                        return child;
+                                      } else {
+                                        // Image is still loading
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    (loadingProgress
+                                                            .expectedTotalBytes ??
+                                                        1)
+                                                : null,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    errorBuilder: (BuildContext context,
+                                        Object error, StackTrace? stackTrace) {
+                                      return Text(
+                                          'Failed to load image: $error');
+                                    },
+                                  ),
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 18),
                                 Text(
                                   list.name.toUpperCase(),
-                                  style: const TextStyle(fontSize: 28),
+                                  style: const TextStyle(fontSize: 24),
                                 )
                               ],
                             ),

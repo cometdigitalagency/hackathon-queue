@@ -36,7 +36,7 @@ class FinishBookingScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.go('/history');
+                  GoRouter.of(context).pop();
                 },
                 child: const Text("ເບິ່ງປະຫວັດການຈອງຄິວ"),
               ),
