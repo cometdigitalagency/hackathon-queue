@@ -9,13 +9,25 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Booking> reservationList = getReservationList();
+    final BoxDecoration customDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 1,
+          blurRadius: 2,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    );
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
         centerTitle: true,
         title: const Text(
-          "Booking List",
+          "LAO BOOKING",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -26,16 +38,58 @@ class HomeScreen extends ConsumerWidget {
             child: Column(
               children: [
                 Container(
-                    child: Column(
-                  children: [
-                    GestureDetector(
-                      child: Text("History"),
-                    ),
-                    GestureDetector(
-                      child: Text("History"),
-                    )
-                  ],
-                )),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            context.go("/history");
+                          },
+                          child: Container(
+                            decoration: customDecoration,
+                            padding: const EdgeInsets.all(10),
+                            child: const Column(
+                              children: [
+                                Icon(
+                                  Icons.history,
+                                  size: 40,
+                                ),
+                                SizedBox(height: 10),
+                                Text("ປະຫວັດການຈອງ")
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            context.go('/how_to_register');
+                          },
+                          child: Container(
+                            decoration: customDecoration,
+                            padding: const EdgeInsets.all(10),
+                            child: const Column(
+                              children: [
+                                Icon(
+                                  Icons.question_mark,
+                                  size: 40,
+                                ),
+                                SizedBox(height: 10),
+                                Text("ວິທີການສະໝັກ")
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(),
+                const SizedBox(height: 10),
                 Column(
                   children: reservationList
                       .map(
@@ -45,18 +99,7 @@ class HomeScreen extends ConsumerWidget {
                           },
                           child: Container(
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
+                            decoration: customDecoration,
                             padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [

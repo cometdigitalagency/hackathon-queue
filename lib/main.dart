@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackaton_2023/finish_booking/view/finish_booking_screen.dart';
+import 'package:hackaton_2023/history/history.dart';
+import 'package:hackaton_2023/how_to_register/view/how_to_register_screen.dart';
 import 'package:hackaton_2023/login/login.dart';
 
 import 'booking_form/view/booking_screen.dart';
@@ -24,6 +27,18 @@ final _router = GoRouter(
       builder: (context, state) => BookingScreen(
         formId: int.parse(state.pathParameters['id']!),
       ),
+    ),
+    GoRoute(
+      path: '/finish_booking',
+      builder: (context, state) => const FinishBookingScreen(),
+    ),
+    GoRoute(
+      path: '/history',
+      builder: (context, state) => const HistoryScreen(),
+    ),
+    GoRoute(
+      path: '/how_to_register',
+      builder: (context, state) => const HowToRegisterScreen(),
     ),
   ],
 );

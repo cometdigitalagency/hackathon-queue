@@ -171,7 +171,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                                     'ກະລຸນາປ້ອນລະຫັດ OTP ພາຍໃນເວລາ $_countdown ວິນາທີ'),
                                 const SizedBox(height: 20),
                                 OtpTextField(
-                                  numberOfFields: 5,
+                                  numberOfFields: 4,
                                   borderColor: Colors.lightBlue,
                                   showFieldAsBox: true,
                                   onCodeChanged: (String code) {

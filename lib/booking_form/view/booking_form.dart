@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BookingForm extends StatefulWidget {
   const BookingForm({super.key, required this.formId});
@@ -9,11 +10,12 @@ class BookingForm extends StatefulWidget {
 
 class _BookingFormState extends State<BookingForm> {
   int _currentStep = 0;
-  String? gender;
+  String? gender = 'male';
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
 
   final items = ['male', 'female', 'other'];
@@ -22,8 +24,8 @@ class _BookingFormState extends State<BookingForm> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: birthday != null ? DateTime.tryParse(birthday!) : null,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(1980),
+      lastDate: DateTime.now(),
     );
 
     if (picked != null && picked != DateTime.tryParse(birthday!)) {
@@ -41,9 +43,9 @@ class _BookingFormState extends State<BookingForm> {
         title: const Text("ແບບຟອມສະໝັກ"),
         leading: IconButton(
           onPressed: () {
-            // context.goBack()
+            context.go('/');
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: SafeArea(
@@ -51,16 +53,12 @@ class _BookingFormState extends State<BookingForm> {
           type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepContinue: () {
-            if (_currentStep < 2) {
+            if (_currentStep < 1) {
               setState(() {
                 _currentStep += 1;
               });
             } else {
-              // Perform the final action, e.g., submit the form
-              // You can access the form data using the controllers
-              print('Name: ${_nameController.text}');
-              print('Email: ${_emailController.text}');
-              print('Password: ${_passwordController.text}');
+              context.go("/finish_booking");
             }
           },
           onStepCancel: () {
@@ -72,71 +70,71 @@ class _BookingFormState extends State<BookingForm> {
           },
           steps: [
             _buildStep(
-              title: 'ປ້ອນຂໍ້ມູນສ່ວນຕົວ',
-              index: 0,
-              content: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'ຊື່ (ພາສາລາວ)',
-                      prefixIcon: Icon(Icons.person),
+                title: 'ປ້ອນຂໍ້ມູນສ່ວນຕົວ',
+                index: 0,
+                content: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'ຊື່ (ພາສາລາວ)',
+                        prefixIcon: Icon(Icons.person),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'ນາມສະກຸນ (ພາສາລາວ)',
-                      prefixIcon: Icon(Icons.person),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'ນາມສະກຸນ (ພາສາລາວ)',
+                        prefixIcon: Icon(Icons.person),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    readOnly: true,
-                    onTap: showBirthDayPicker,
-                    controller: _birthdayController,
-                    decoration: const InputDecoration(
-                      labelText: 'ວັນ ເດືອນ ປີເກີດ',
-                      hintText: "MM/DD/YYYY",
-                      prefixIcon: Icon(Icons.calendar_month),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      readOnly: true,
+                      onTap: showBirthDayPicker,
+                      controller: _birthdayController,
+                      decoration: const InputDecoration(
+                        labelText: 'ວັນ ເດືອນ ປີເກີດ',
+                        hintText: "MM/DD/YYYY",
+                        prefixIcon: Icon(Icons.calendar_month),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButtonFormField(
-                      value: gender,
-                      decoration: InputDecoration(prefixIcon: Icon(Icons.male)),
-                      items: ['male', 'female', 'other']
-                          .map((el) => DropdownMenuItem(
-                                value: el,
-                                child: Text(el),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        print('test');
-                      }),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'ອີເມວ',
-                      hintText: "example@gmail.com",
-                      prefixIcon: Icon(Icons.email),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField(
+                        value: gender,
+                        decoration:
+                            const InputDecoration(prefixIcon: Icon(Icons.male)),
+                        items: ['male', 'female', 'other']
+                            .map((el) => DropdownMenuItem(
+                                  value: el,
+                                  child: Text(el),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          print('test');
+                        }),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'ອີເມວ',
+                        hintText: "example@gmail.com",
+                        prefixIcon: Icon(Icons.email),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'ເບີໂທ',
-                      hintText: "20 XXXX XXXX",
-                      prefixIcon: Icon(Icons.phone),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'ເບີໂທ',
+                        hintText: "20 XXXX XXXX",
+                        prefixIcon: Icon(Icons.phone),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                )),
             _buildStep(
-              title: 'ຈອງບັດນັດກົດບັດຄິວອອນລາຍ',
+              title: 'ຈອງບັດນັດກົດບັດຄິວ',
               index: 1,
               content: Column(
                 children: [
@@ -158,7 +156,7 @@ class _BookingFormState extends State<BookingForm> {
     return Step(
       title: Text(
         title,
-        style: TextStyle(fontSize: 12),
+        style: const TextStyle(fontSize: 14),
       ),
       content: content,
       isActive: _currentStep == index,
