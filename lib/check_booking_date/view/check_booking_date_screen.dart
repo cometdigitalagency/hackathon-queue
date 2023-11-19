@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:laobooking/widgets/ListfullProList.dart';
+import 'package:laobooking/widgets/ScheduleConsular.dart';
 
 class CheckBookDateScreen extends StatelessWidget {
   const CheckBookDateScreen({super.key});
@@ -9,7 +9,7 @@ class CheckBookDateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ຕາລາງເວລາ"),
+        title: Text("ຕາລາງວັນທີ່"),
         leading: IconButton(
           onPressed: () {
             context.go('/');
@@ -17,8 +17,8 @@ class CheckBookDateScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: ListfullProList(
-        onSelect: (ListfullPro) {},
+      body: ScheduleConsularList(
+        onSelect: (schedule) {},
       ),
     );
   }

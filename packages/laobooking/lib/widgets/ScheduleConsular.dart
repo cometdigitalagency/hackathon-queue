@@ -1,20 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../models/ListfullPro.dart';
+import '../models/ScheduleConsular.dart';
 
-class ListfullProList extends StatefulWidget {
-  const ListfullProList({super.key, required this.onSelect});
-  final void Function(ListfullPro)? onSelect;
+class ScheduleConsularList extends StatefulWidget {
+  const ScheduleConsularList({super.key, required this.onSelect});
+  final void Function(ScheduleConsular)? onSelect;
   @override
-  State<ListfullProList> createState() => _ListfullProListState();
+  State<ScheduleConsularList> createState() => _ScheduleConsularListState();
 }
 
-class _ListfullProListState extends State<ListfullProList> {
+class _ScheduleConsularListState extends State<ScheduleConsularList> {
   bool loading = true;
   String type = 'ທັງໝົດ';
-  List<ListfullPro> list = [];
-  List<ListfullPro> showList = [];
+  List<ScheduleConsular> list = [];
+  List<ScheduleConsular> showList = [];
   final TextEditingController _pickdateController = TextEditingController();
   @override
   void initState() {
@@ -55,9 +55,9 @@ class _ListfullProListState extends State<ListfullProList> {
     final result = await _lao_gov.get("listfull_pro/1");
     if (result.statusCode == 200) {
       final histories = result.data;
-      final List<ListfullPro> mappedHistories = [];
+      final List<ScheduleConsular> mappedHistories = [];
       histories.forEach((usr) {
-        mappedHistories.add(ListfullPro.fromJson(usr));
+        mappedHistories.add(ScheduleConsular.fromJson(usr));
       });
 
       setState(() {

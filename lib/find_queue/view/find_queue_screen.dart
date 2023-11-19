@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laobooking/widgets/FindQueueWidget.dart';
 
 class FindQueueScreen extends StatelessWidget {
   const FindQueueScreen({super.key});
@@ -11,11 +12,12 @@ class FindQueueScreen extends StatelessWidget {
         title: Text("ກວດຄິວ"),
         leading: IconButton(
           onPressed: () {
-            context.go("/");
+            GoRouter.of(context).pop();
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
       ),
+      body: const FindQueueWidget(),
     );
   }
 }

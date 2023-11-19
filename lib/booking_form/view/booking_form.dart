@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laobooking/widgets/ScheduleConsular.dart';
 
 class BookingForm extends StatefulWidget {
   const BookingForm({super.key, required this.formId});
@@ -11,13 +12,14 @@ class BookingForm extends StatefulWidget {
 class _BookingFormState extends State<BookingForm> {
   int _currentStep = 0;
   String? gender = 'ຊາຍ';
+
+  String? unit = 'ນະຄອນຫຼວງ';
+  final TextEditingController requestQueueDate = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _birthdayController = TextEditingController();
-
   final items = ['male', 'female', 'other'];
   Future<void> showBirthDayPicker() async {
     final birthday = _birthdayController.text;
@@ -33,6 +35,20 @@ class _BookingFormState extends State<BookingForm> {
         _birthdayController.text = picked.toIso8601String().split('T')[0];
       });
     }
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ScheduleConsularList(onSelect: (value) {
+          Navigator.pop(context);
+          setState(() {
+            requestQueueDate.text = value.queue_date;
+          });
+        });
+      },
+    );
   }
 
   @override
@@ -84,7 +100,7 @@ class _BookingFormState extends State<BookingForm> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      controller: _nameController,
+                      controller: _surnameController,
                       decoration: const InputDecoration(
                         labelText: 'ນາມສະກຸນ (ພາສາລາວ)',
                         prefixIcon: Icon(Icons.person),
@@ -113,10 +129,13 @@ class _BookingFormState extends State<BookingForm> {
                                 ))
                             .toList(),
                         onChanged: (value) {
-                          print('test');
+                          setState(() {
+                            gender = value;
+                          });
                         }),
                     const SizedBox(height: 10),
                     TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(
                         labelText: 'ອີເມວ',
                         hintText: "example@gmail.com",
@@ -125,6 +144,7 @@ class _BookingFormState extends State<BookingForm> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      controller: _phoneController,
                       decoration: const InputDecoration(
                         labelText: 'ເບີໂທ',
                         hintText: "20 XXXX XXXX",
@@ -138,9 +158,31 @@ class _BookingFormState extends State<BookingForm> {
               index: 1,
               content: Column(
                 children: [
+                  DropdownButtonFormField(
+                      value: unit,
+                      decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.home_work),
+                          label: Text("ສູນອອກໜັງສືຜ່ານແດນ")),
+                      items: ['ນະຄອນຫຼວງ']
+                          .map((el) => DropdownMenuItem(
+                                value: el,
+                                child: Text(el),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          unit = value;
+                        });
+                      }),
+                  SizedBox(
+                    height: 20,
+                  ),
                   TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
+                    readOnly: true,
+                    controller: requestQueueDate,
+                    onTap: () => _showBottomSheet(context),
+                    decoration: const InputDecoration(
+                        labelText: 'ວັນທີ່ຈອງ', hintText: "YYYY-MM-DD"),
                   ),
                 ],
               ),
