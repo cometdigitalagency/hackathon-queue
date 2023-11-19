@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackaton_2023/check_booking_date/check_booking_date.dart';
 import 'package:hackaton_2023/find_queue/view/find_queue_screen.dart';
+import 'package:hackaton_2023/finish_booking/view/false_booking_screen.dart';
 import 'package:hackaton_2023/finish_booking/view/finish_booking_screen.dart';
 import 'package:hackaton_2023/history/history.dart';
 import 'package:hackaton_2023/how_to_register/view/how_to_register_screen.dart';
@@ -33,6 +34,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/finish_booking',
       builder: (context, state) => const FinishBookingScreen(),
+    ),
+    GoRoute(
+      path: '/false_booking/:msg',
+      builder: (context, state) => FalseBookingScreen(
+        msg: state.pathParameters['msg'],
+      ),
     ),
     GoRoute(
       path: '/history',

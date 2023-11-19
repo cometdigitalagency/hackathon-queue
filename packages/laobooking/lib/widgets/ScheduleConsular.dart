@@ -51,6 +51,31 @@ class _ScheduleConsularListState extends State<ScheduleConsularList> {
     }
   }
 
+  String getDay(String date) {
+    final _date = date.split("-");
+    final dayOfWeek =
+        DateTime(int.parse(_date[0]), int.parse(_date[1]), int.parse(_date[2]))
+            .weekday;
+    switch (dayOfWeek) {
+      case 1:
+        return 'Mon';
+      case 2:
+        return 'Tue';
+      case 3:
+        return 'Wed';
+      case 4:
+        return 'Thu';
+      case 5:
+        return 'Fri';
+      case 6:
+        return 'Sat';
+      case 7:
+        return 'Sun';
+      default:
+        return 'Invalid day';
+    }
+  }
+
   Future<void> loadData() async {
     final result = await _lao_gov.get("listfull_pro/1");
     if (result.statusCode == 200) {
@@ -77,8 +102,23 @@ class _ScheduleConsularListState extends State<ScheduleConsularList> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? const Center(
-            child: CircularProgressIndicator(),
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                  onPressed: () {
+                    loadData();
+                  },
+                  child: const Text("Refresh"),
+                )
+              ],
+            ),
           )
         : Column(
             children: [
@@ -167,7 +207,15 @@ class _ScheduleConsularListState extends State<ScheduleConsularList> {
                             child: Row(
                               children: [
                                 Expanded(
-                                    child: Text(showList[index].queue_date)),
+                                    child: Row(
+                                  children: [
+                                    Text(getDay(showList[index].queue_date)),
+                                    const SizedBox(width: 10),
+                                    Text(showList[index].queue_date)
+                                  ],
+                                )),
+                                const Text("ຈຳນວນ"),
+                                const SizedBox(width: 20),
                                 Text(showList[index].total),
                                 const SizedBox(width: 20),
                                 Text(showList[index].remark)

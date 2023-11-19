@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laobooking/api/lao_gov_passport_api.dart';
 import 'package:laobooking/widgets/ScheduleConsular.dart';
 
 class BookingForm extends StatefulWidget {
@@ -11,8 +12,8 @@ class BookingForm extends StatefulWidget {
 
 class _BookingFormState extends State<BookingForm> {
   int _currentStep = 0;
-  String? gender = 'ຊາຍ';
-
+  String? gender = 'M';
+  bool loading = false;
   String? unit = 'ນະຄອນຫຼວງ';
   final TextEditingController requestQueueDate = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -20,7 +21,7 @@ class _BookingFormState extends State<BookingForm> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
-  final items = ['male', 'female', 'other'];
+
   Future<void> showBirthDayPicker() async {
     final birthday = _birthdayController.text;
     final DateTime? picked = await showDatePicker(
@@ -51,6 +52,67 @@ class _BookingFormState extends State<BookingForm> {
     );
   }
 
+  Future<void> submitForm() async {
+    final api = ConsularLaoApi();
+    final firstName = _nameController.text;
+    final lastName = _surnameController.text;
+    final queueDate = requestQueueDate.text;
+    final sex = gender!;
+    final tel = _phoneController.text;
+    final birthday = _birthdayController.text;
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        queueDate.isEmpty ||
+        tel.isEmpty ||
+        birthday.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Please input all field'),
+          duration: const Duration(
+              seconds: 3), // Duration for which the SnackBar will be visible
+          action: SnackBarAction(
+            label: 'Close',
+            onPressed: () {
+              // Perform any action when the "Close" button is pressed
+              ScaffoldMessenger.of(context)
+                  .hideCurrentSnackBar(); // Close the SnackBar
+            },
+          ),
+        ),
+      );
+      return;
+    }
+    setState(() {
+      loading = true;
+    });
+    final _birthday = birthday.split('-');
+    final birthdayInDatetime = DateTime(int.parse(_birthday[0]),
+        int.parse(_birthday[1]), int.parse(_birthday[2]));
+    final age = calculateAge(birthdayInDatetime);
+    final result = await api.requestQueueNo(
+        firstName, lastName, queueDate, sex, tel, birthday, age);
+    if (result.msg != 'Error') {
+      context.go('/finish_booking');
+    } else {
+      context.go('/false_booking/${result.desc}');
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  int calculateAge(DateTime birthday) {
+    DateTime now = DateTime.now();
+    int age = now.year - birthday.year;
+
+    if (now.month < birthday.month ||
+        (now.month == birthday.month && now.day < birthday.day)) {
+      age--;
+    }
+
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +126,9 @@ class _BookingFormState extends State<BookingForm> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: SafeArea(
-        child: Stepper(
+      body: Stack(children: [
+        Positioned(
+            child: Stepper(
           type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepContinue: () {
@@ -74,7 +137,7 @@ class _BookingFormState extends State<BookingForm> {
                 _currentStep += 1;
               });
             } else {
-              context.go("/finish_booking");
+              submitForm();
             }
           },
           onStepCancel: () {
@@ -86,73 +149,74 @@ class _BookingFormState extends State<BookingForm> {
           },
           steps: [
             _buildStep(
-                title: 'ປ້ອນຂໍ້ມູນສ່ວນຕົວ',
-                index: 0,
-                content: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(
-                        labelText: 'ຊື່ (ພາສາລາວ)',
-                        prefixIcon: Icon(Icons.person),
-                      ),
+              title: 'ປ້ອນຂໍ້ມູນສ່ວນຕົວ',
+              index: 0,
+              content: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'ຊື່ (ພາສາລາວ)',
+                      prefixIcon: Icon(Icons.person),
                     ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _surnameController,
-                      decoration: const InputDecoration(
-                        labelText: 'ນາມສະກຸນ (ພາສາລາວ)',
-                        prefixIcon: Icon(Icons.person),
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _surnameController,
+                    decoration: const InputDecoration(
+                      labelText: 'ນາມສະກຸນ (ພາສາລາວ)',
+                      prefixIcon: Icon(Icons.person),
                     ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      readOnly: true,
-                      onTap: showBirthDayPicker,
-                      controller: _birthdayController,
-                      decoration: const InputDecoration(
-                        labelText: 'ວັນ ເດືອນ ປີເກີດ',
-                        hintText: "MM/DD/YYYY",
-                        prefixIcon: Icon(Icons.calendar_month),
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    readOnly: true,
+                    onTap: showBirthDayPicker,
+                    controller: _birthdayController,
+                    decoration: const InputDecoration(
+                      labelText: 'ວັນ ເດືອນ ປີເກີດ',
+                      hintText: "MM/DD/YYYY",
+                      prefixIcon: Icon(Icons.calendar_month),
                     ),
-                    const SizedBox(height: 10),
-                    DropdownButtonFormField(
-                        value: gender,
-                        decoration:
-                            const InputDecoration(prefixIcon: Icon(Icons.male)),
-                        items: ['ຊາຍ', 'ຍິງ']
-                            .map((el) => DropdownMenuItem(
-                                  value: el,
-                                  child: Text(el),
-                                ))
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            gender = value;
-                          });
-                        }),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'ອີເມວ',
-                        hintText: "example@gmail.com",
-                        prefixIcon: Icon(Icons.email),
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField(
+                      value: gender,
+                      decoration:
+                          const InputDecoration(prefixIcon: Icon(Icons.male)),
+                      items: ['ຊາຍ', 'ຍິງ']
+                          .map((el) => DropdownMenuItem(
+                                value: el == 'ຊາຍ' ? 'M' : 'F',
+                                child: Text(el),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          gender = value;
+                        });
+                      }),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'ອີເມວ',
+                      hintText: "example@gmail.com",
+                      prefixIcon: Icon(Icons.email),
                     ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _phoneController,
-                      decoration: const InputDecoration(
-                        labelText: 'ເບີໂທ',
-                        hintText: "20 XXXX XXXX",
-                        prefixIcon: Icon(Icons.phone),
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(
+                      labelText: 'ເບີໂທ',
+                      hintText: "20 XXXX XXXX",
+                      prefixIcon: Icon(Icons.phone),
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
             _buildStep(
               title: 'ຈອງບັດນັດກົດບັດຄິວ',
               index: 1,
@@ -182,14 +246,26 @@ class _BookingFormState extends State<BookingForm> {
                     controller: requestQueueDate,
                     onTap: () => _showBottomSheet(context),
                     decoration: const InputDecoration(
-                        labelText: 'ວັນທີ່ຈອງ', hintText: "YYYY-MM-DD"),
+                        prefixIcon: Icon(Icons.calendar_month),
+                        labelText: 'ວັນທີ່ຈອງ',
+                        hintText: "YYYY-MM-DD"),
                   ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
+        )),
+        loading
+            ? Positioned(
+                child: Container(
+                  color: Colors.grey.withOpacity(0.2),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+            : const SizedBox(),
+      ]),
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FinishBookingScreen extends StatelessWidget {
-  const FinishBookingScreen({super.key});
-
+class FalseBookingScreen extends StatelessWidget {
+  const FalseBookingScreen({super.key, required this.msg});
+  final String? msg;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,18 +17,31 @@ class FinishBookingScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/finish_submit_form.png'),
+                  Container(
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.red),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "ການສົ່ງຟອມສຳເລັດ",
+                    "ລາຍການຖືກປະຕິເສດ!",
                     style: TextStyle(fontSize: 28),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Text("ກະລຸນາລໍຖ້າການອະນຸມັດ."),
+                  Text(
+                    msg != null ? msg! : "ມີບາງຢ່າງຜົດພາດ",
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
@@ -38,7 +51,7 @@ class FinishBookingScreen extends StatelessWidget {
                 onPressed: () {
                   context.go('/');
                 },
-                child: const Text("ເບິ່ງປະຫວັດການຈອງຄິວ"),
+                child: const Text("ກັບໜ້າຫຼັກ"),
               ),
             )
           ],
