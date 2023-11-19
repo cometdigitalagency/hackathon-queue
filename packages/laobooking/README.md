@@ -18,8 +18,9 @@ This package is meant to define widgets for developpers to use in thier own appl
 add to pubspec.yaml
 ```dependencies:
   laobooking:
-    git:url:https://github.com/cometdigitalagency/hackathon-queue.git
-    path:packages/laobooking
+    git:
+      url:https://github.com/cometdigitalagency/hackathon-queue.git
+      path:packages/laobooking
 ```
 
 ## Calling packages
