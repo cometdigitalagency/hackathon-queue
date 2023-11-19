@@ -10,30 +10,42 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
+# Lao Booking - Registering to reserve a passport application date
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This package is meant to define widgets for developpers to use in thier own application, it has two main widgets which help users to find an available date for appointement and to book an appointment
 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+## Include the package to project
+add to pubspec.yaml
+```dependencies:
+  laobooking:
+    git:url:https://github.com/cometdigitalagency/hackathon-queue.git
+    path:packages/laobooking
 ```
 
-## Additional information
+## Calling packages
+### FindQueueWidget
+The purpose of this widget is to help users find availability and to know when they can reserve an appointment
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+---
+
+###### import to dart file
+```
+import 'package:laobooking/widgets/FindQueueWidget.dart';
+```
+###### call the widget
+```
+body: const FindQueueWidget()
+```
+### ScheduleConsular
+The purpose of this widget is to help users reserve an appointment with the consular
+
+---
+
+###### import to dart file
+```
+import 'package:laobooking/widgets/ScheduleConsular.dart';
+```
+###### call the widget
+```
+body: const ScheduleConsular()
+```
