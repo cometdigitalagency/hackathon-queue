@@ -18,17 +18,17 @@ class FinishBookingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/finish_submit_form.png'),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     "ການສົ່ງຟອມສຳເລັດ",
                     style: TextStyle(fontSize: 28),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text("ກະລຸນາລໍຖ້າການອະນຸມັດ."),
+                  const Text("ກະລຸນາລໍຖ້າການອະນຸມັດ."),
                 ],
               ),
             ),

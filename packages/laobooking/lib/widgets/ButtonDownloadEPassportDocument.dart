@@ -8,7 +8,7 @@ class ButtonDownloadEPassportDipServicePDF extends StatelessWidget {
     return SizedBox(
       child: ElevatedButton(
         onPressed: () {},
-        child: Text("ດາວໂຫຼດ ຄຳຮ້ອງຂໍໜັງສືຜ່ານແດນ"),
+        child: const Text("ດາວໂຫຼດ ຄຳຮ້ອງຂໍໜັງສືຜ່ານແດນ"),
       ),
     );
   }

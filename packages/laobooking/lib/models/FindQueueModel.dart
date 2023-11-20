@@ -25,7 +25,7 @@ class FindQueueModel {
   int? ca14;
   int? ca15;
   dynamic ca16;
-  String idcardexpriry;
+  String? idcardexpriry;
   int unitId;
   String age;
   int rangeId;

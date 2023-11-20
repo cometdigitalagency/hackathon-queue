@@ -9,7 +9,7 @@ class CheckBookDateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ຕາລາງວັນທີ່"),
+        title: const Text("ຕາລາງວັນທີ່"),
         leading: IconButton(
           onPressed: () {
             context.go('/');

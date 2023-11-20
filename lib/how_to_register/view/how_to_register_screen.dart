@@ -14,7 +14,7 @@ class HowToRegisterScreen extends StatelessWidget {
             context.go('/');
           },
         ),
-        title: Text("ວິທີການສະໝັກ"),
+        title: const Text("ວິທີການສະໝັກ"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),

@@ -9,12 +9,12 @@ class FindQueueScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ກວດຄິວ"),
+        title: const Text("ກວດຄິວ"),
         leading: IconButton(
           onPressed: () {
             GoRouter.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: const FindQueueWidget(),

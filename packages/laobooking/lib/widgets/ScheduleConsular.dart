@@ -36,12 +36,12 @@ class _ScheduleConsularListState extends State<ScheduleConsularList> {
     final birthday = _pickdateController.text;
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: birthday != null ? DateTime.tryParse(birthday!) : null,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1980),
       lastDate: DateTime(DateTime.now().year + 1),
     );
 
-    if (picked != null && picked != DateTime.tryParse(birthday!)) {
+    if (picked != null && picked != DateTime.tryParse(birthday)) {
       setState(() {
         var pickdate = picked.toIso8601String().split('T')[0];
         _pickdateController.text = pickdate;
@@ -52,9 +52,9 @@ class _ScheduleConsularListState extends State<ScheduleConsularList> {
   }
 
   String getDay(String date) {
-    final _date = date.split("-");
+    final date0 = date.split("-");
     final dayOfWeek =
-        DateTime(int.parse(_date[0]), int.parse(_date[1]), int.parse(_date[2]))
+        DateTime(int.parse(date0[0]), int.parse(date0[1]), int.parse(date0[2]))
             .weekday;
     switch (dayOfWeek) {
       case 1:

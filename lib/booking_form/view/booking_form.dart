@@ -26,12 +26,12 @@ class _BookingFormState extends State<BookingForm> {
     final birthday = _birthdayController.text;
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: birthday != null ? DateTime.tryParse(birthday!) : null,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1980),
       lastDate: DateTime.now(),
     );
 
-    if (picked != null && picked != DateTime.tryParse(birthday!)) {
+    if (picked != null && picked != DateTime.tryParse(birthday)) {
       setState(() {
         _birthdayController.text = picked.toIso8601String().split('T')[0];
       });
@@ -85,9 +85,9 @@ class _BookingFormState extends State<BookingForm> {
     setState(() {
       loading = true;
     });
-    final _birthday = birthday.split('-');
-    final birthdayInDatetime = DateTime(int.parse(_birthday[0]),
-        int.parse(_birthday[1]), int.parse(_birthday[2]));
+    final birthday0 = birthday.split('-');
+    final birthdayInDatetime = DateTime(int.parse(birthday0[0]),
+        int.parse(birthday0[1]), int.parse(birthday0[2]));
     final age = calculateAge(birthdayInDatetime);
     final result = await api.requestQueueNo(
         firstName, lastName, queueDate, sex, tel, birthday, age);
@@ -238,7 +238,7 @@ class _BookingFormState extends State<BookingForm> {
                           unit = value;
                         });
                       }),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(

@@ -41,7 +41,7 @@ class AdviceBookPassport extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
               children: [
                 // Your scrollable content goes here
-                Text(
+                const Text(
                   'ຄຳແນະນຳການປະກອບຄຳຮ້ອງຂໍໜັງສືຜ່ານແດນ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -49,10 +49,10 @@ class AdviceBookPassport extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Text(
                   multilineText,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 )
                 // Add more widgets as needed
               ],

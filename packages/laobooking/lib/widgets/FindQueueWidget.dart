@@ -23,6 +23,7 @@ class _FindQueueWidgetState extends State<FindQueueWidget> {
     var lastName = lastNameController.value.text;
     if (firstName.isNotEmpty && lastName.isNotEmpty) {
       final result = await api.findQueue(firstName, lastName);
+      print(result);
       setState(() {
         list = result;
         showList = list;
@@ -36,28 +37,32 @@ class _FindQueueWidgetState extends State<FindQueueWidget> {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          Container(
-            child: Column(
+          Column(
+            children: [
+              TextFormField(
+                controller: firstNameController,
+                decoration: const InputDecoration(label: Text("ຊື່")),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: lastNameController,
+                decoration: const InputDecoration(label: Text("ນາມສະກຸນ")),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    loadData();
+                  },
+                  child: const Text("ຄົ້ນຫາ"),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: ListView(
               children: [
-                TextFormField(
-                  controller: firstNameController,
-                  decoration: const InputDecoration(label: Text("ຊື່")),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: lastNameController,
-                  decoration: const InputDecoration(label: Text("ນາມສະກຸນ")),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      loadData();
-                    },
-                    child: Text("ຄົ້ນຫາ"),
-                  ),
-                ),
                 ...showList.map((list) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 10),
@@ -84,6 +89,8 @@ class _FindQueueWidgetState extends State<FindQueueWidget> {
                         child: Row(
                           children: [
                             Text(list.fname),
+                            const SizedBox(width: 10),
+                            Text(list.lname),
                             const SizedBox(width: 20),
                             Expanded(child: Text(list.queueDate)),
                           ],
@@ -94,7 +101,7 @@ class _FindQueueWidgetState extends State<FindQueueWidget> {
                 })
               ],
             ),
-          ),
+          )
         ],
       ),
     );

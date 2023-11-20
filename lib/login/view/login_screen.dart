@@ -88,7 +88,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 50),
-                Text("ຍິນດີຕ້ອນຮັບກັບຄືນ"),
+                const Text("ຍິນດີຕ້ອນຮັບກັບຄືນ"),
                 const SizedBox(height: 10),
                 const Text(
                   "ເຂົ້າສູ່ລະບົບ Lao Booking",
