@@ -13,8 +13,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginViewState extends ConsumerState<LoginScreen> {
-  final TextEditingController _phoneController =
-      TextEditingController(text: '2059158789');
+  final TextEditingController _phoneController = TextEditingController();
   var isSendOtp = false;
   var otp = '';
   late Timer _timer;

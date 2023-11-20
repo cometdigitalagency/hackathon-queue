@@ -13,10 +13,8 @@ class _FindQueueWidgetState extends State<FindQueueWidget> {
   final api = ConsularLaoApi();
   List<FindQueueModel> list = [];
   List<FindQueueModel> showList = [];
-  TextEditingController firstNameController =
-      TextEditingController(text: "THEP-ANANH");
-  TextEditingController lastNameController =
-      TextEditingController(text: "VIRATHAVONE");
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
 
   Future<void> loadData() async {
     var firstName = firstNameController.value.text;

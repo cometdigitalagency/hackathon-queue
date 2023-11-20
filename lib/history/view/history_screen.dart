@@ -24,8 +24,6 @@ class _HistoryScreen extends ConsumerState<HistoryScreen> {
       await ref.read(historyCNProvider).loadHistories();
     }
 
-    final historyProvider = ref.watch(historyCNProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("ປະຫວັດການຈອງຄິວ"),
